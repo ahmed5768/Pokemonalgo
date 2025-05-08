@@ -1,38 +1,36 @@
 import { useEffect, useState } from "react"
 import "./pokemon.css"
+import { PokemonCards } from "./PokemonCards"
 
+// fetch api 
 export const FetchApi = () => {
-    const [apiData, setApiData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
+    const [pokemon, setPokemon] = useState([])
+    const [search, setSearch] = useState("")
 
-    const API = ("https://pokeapi.co/api/v2/pokemon/pikachu")
-
-    // const fetchPokemon = () => {
-    //     fetch(API)
-    //         .then((res) => res.json())
-    //         .then((data) => {
-    //             setApiData(data)
-    //             setLoading(false)
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //             setError(error);
-    //             setLoading(false)
-    //         })
-    // }
-
+    const API = ("https://pokeapi.co/api/v2/pokemon?limit=500")
 
     const fetchPokemon = async () => {
         try {
             const res = await fetch(API)
             const data = await res.json()
-            setApiData(data)
+
+            const detailPokemonPromise = data.results.map(async (curPokemon) => {
+                const res = await fetch(curPokemon.url);
+                const data = await res.json();
+                return data;
+            })
+
+            const detailPokemonData = await Promise.all(detailPokemonPromise)
+            console.log(detailPokemonData);
+            setPokemon(detailPokemonData)
             setLoading(false)
+
         } catch (error) {
             console.log(error);
-            setError(error);
             setLoading(false)
+            setError(error);
         }
     }
 
@@ -40,14 +38,20 @@ export const FetchApi = () => {
         fetchPokemon();
     }, [])
 
-    console.log(apiData);
+    // input functionility
+    const pokemonSearch = pokemon.filter((curSearch) =>
+        curSearch.name.toLowerCase().includes(search.toLowerCase())
+    )
 
+    // server loading
     if (loading)
         return (
             <div>
                 <h1>Loading...</h1>
             </div>
         )
+
+    // server error
     if (error)
         return (
             <div>
@@ -55,31 +59,29 @@ export const FetchApi = () => {
             </div>
         )
 
+
     return (
         <section className="container">
             <header>
                 <h1>Lets Catch Pokemon</h1>
             </header>
-            <ul className="card-demo">
-                <li className="pokemon-card">
-                    <figure>
-                        <img src={apiData.sprites.other.dream_world.front_default}
-                            alt={apiData.name}
-                            className="pokemone-image" />
-                    </figure>
-                    <h1>{apiData.name}</h1>
-                    <div className="grid-three-cols">
-                        <p className="pokemon-info">
-                            Height: <span>{apiData.height}</span>
-                        </p>
-                        <p className="pokemon-info">
-                            Weight: <span>{apiData.weight}</span>
-                        </p>
-                        <p className="pokemon-info">
-                            Speed: <span>{apiData.stats[5]. base_stat}</span>
-                        </p>
-                    </div>
-                </li>
+
+            {/* input */}
+            <div className="pokemon-search">
+                <input type="text" placeholder="Search Pokemon"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)} />
+            </div>
+
+            {/* cards */}
+            <ul className="cards">
+                {
+                    pokemonSearch.map((curPokemon) => {
+                        return (
+                            <PokemonCards key={curPokemon.id} pokemonData={curPokemon} />
+                        )
+                    })
+                }
             </ul>
         </section>
     )

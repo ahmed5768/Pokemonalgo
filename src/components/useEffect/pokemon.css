@@ -101,11 +101,11 @@ input[type=text] {
     grid-template-columns: repeat(4, 1fr);
     justify-content: center;
     align-items: center;
-    gap: 3.2rem
+    gap: 3rem
 }
 
 .pokemon-card {
-    width: 36rem;
+    width: 90;
     min-height: 42rem;
     box-shadow: #0000000d 0 6px 24px, #00000014 0 0 0 1px;
     background-color: #fff;
