@@ -16,6 +16,7 @@ export const PokemonCards = ({ pokemonData }) => {
                 </p>
             </div>
 
+            <div className="li-main-div">
             <div className="grid-three-cols">
                 <p className="pokemon-info">
                     <span>Height:</span>{pokemonData.height}
@@ -32,7 +33,7 @@ export const PokemonCards = ({ pokemonData }) => {
 
             <div className="grid-three-cols">
                 <p className="pokemon-info">
-                    <span>Experince:</span>{pokemonData.base_experince}
+                    <span>Experince:</span>{pokemonData.base_experience}
                 </p>
 
                 <p className="pokemon-info">
@@ -48,6 +49,7 @@ export const PokemonCards = ({ pokemonData }) => {
                     .join(", ")
                    }
                 </p>
+            </div>
             </div>
         </li>
     )

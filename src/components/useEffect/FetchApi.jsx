@@ -74,7 +74,8 @@ export const FetchApi = () => {
             </div>
 
             {/* cards */}
-            <ul className="cards">
+          <div className="card-div">
+          <ul className="cards">
                 {
                     pokemonSearch.map((curPokemon) => {
                         return (
@@ -83,6 +84,7 @@ export const FetchApi = () => {
                     })
                 }
             </ul>
+          </div>
         </section>
     )
 }

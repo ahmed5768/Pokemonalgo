@@ -95,13 +95,25 @@ input[type=text] {
     -ms-border-radius: .2em .2em 0 0;
     -o-border-radius: .2em .2em 0 0
 }
+.card-div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 
 .cards {
-    display: grid;
+    /* display: grid;
     grid-template-columns: repeat(4, 1fr);
     justify-content: center;
     align-items: center;
-    gap: 3rem
+    gap: 3rem */
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    /* Responsive grid */
+    gap: 2rem;
+    padding-bottom: 1rem;
+    width: 100%;
 }
 
 .pokemon-card {
@@ -192,13 +204,21 @@ figure {
     text-transform: capitalize
 }
 
+.pokemon-info span {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+}
+
+
 .pokemon-image {
     width: 60%;
     height: 15rem
 }
 
 pokemon-info {
-    text-align: center
+    text-align: center;
+    font-size: 1.6rem;
 }
 
 .short-container {
